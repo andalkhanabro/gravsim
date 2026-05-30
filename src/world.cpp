@@ -46,7 +46,11 @@ void World::advance(bool printInfo) {
 
         Particle p_i = _all_particles[i]; 
 
-        for (int j = i + 1; j < N; j++) {
+        for (int j = 0; j < N; j++) {
+
+            if (j == i) {
+                continue; 
+            }
 
             Particle p_j = _all_particles[j]; 
 
@@ -54,17 +58,19 @@ void World::advance(bool printInfo) {
             double x_ji = p_j._x_pos - p_i._x_pos;  // delta x
             double y_ji = p_j._y_pos - p_i._y_pos;  // delta y 
 
-            double a_x_i = ((World::G * p_j._mass) / d_cubed) * x_ji; 
-            double a_y_i = ((World::G * p_j._mass) / d_cubed) * y_ji;
+            double gravitational_force = (World::G * p_j._mass * p_i._mass) / d_cubed;
+
+            double a_x_i = (gravitational_force * x_ji)/(p_i._mass);
+            double a_y_i = (gravitational_force * y_ji)/(p_i._mass);
 
             a_x[i] = a_x[i] + a_x_i; // contribution to a_x from jth particle onto i
             a_y[i] = a_y[i] + a_y_i; // contribution to a_y from jth particle onto i
 
-            // for the jth particle, a_x and a_y flipped due to N3 Law, so no need to recompute. [OPTIMIZATION]
-            // we update simultaneously 
+            double a_x_j = (gravitational_force * x_ji)/(p_j._mass);
+            double a_y_j = (gravitational_force * y_ji)/(p_j._mass);
 
-            a_x[j] -= a_x_i; 
-            a_y[j] -= a_y_i; 
+            a_x[j] -= a_x_j;
+            a_y[j] -= a_y_j;
 
         }
 
@@ -76,11 +82,14 @@ void World::advance(bool printInfo) {
     this->updatePositions(a_x, a_y); 
     this->updateVelocities(a_x, a_y); 
 
-    for (int i = 0; i < N; i++) {
+    if (printInfo) {
+
+        for (int i = 0; i < N; i++) {
 
         std::cout << "Particle number: " << i << std::endl;  
         std::cout << _all_particles[i]; 
 
     }
 
+    }
 }

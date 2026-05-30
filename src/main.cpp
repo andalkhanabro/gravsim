@@ -1,25 +1,25 @@
 #include "world.h"
 #include <iostream>
 #include "particle.h"
+#include "renderer.h"
+#include "raylib.h"
+#include <cmath>
 
 int main() {
 
     std::vector<Particle> all_particles; 
 
+    Renderer renderer(800, 800); 
+
     // SETTING UP THE WORLD WE WANT 
 
-    Particle p1(-5, 0.0, 1.0, 0.0, 1); 
-    Particle p2(5, 0.0, -1.0, 0.0, 1); 
+    Particle p1(5, 0.0, -1.0, 0, 1e10); 
+    Particle p2(-5, 0.0, 1.0, 0, 1e10); 
 
     all_particles.push_back(p1);
     all_particles.push_back(p2);
 
-    World myworld(all_particles, 1); 
-
-    // run a loop for 10 seconds 
-
-    int iterations = 3; 
-
+    World myworld(all_particles, 0.01); 
 
     // PRINTING INITIAL STATES
 
@@ -34,26 +34,11 @@ int main() {
 
     std::cout << "EVOLVING IN TIME: " << "\n"; 
 
-
     // start advancing 
 
-    for (int i = 0; i < iterations; i++) {
-
-        myworld.advance(true); 
-
-    }
-
+    while (!WindowShouldClose()) {
+      myworld.advance(false);
+      renderer.draw(myworld);
 }
 
-
-// 
-
-Let's think thru the transform first. 
-
-
-
-We have a Cartesian grid and some Pixel grid X,Y defined by max screen window height and width
-
-
-
-Also, my origin is the center and has the negative part of the Cartesian plane also, but what we want is 
+}

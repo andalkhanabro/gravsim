@@ -65,7 +65,6 @@ void Particle::updateVelocity(double a_x, double a_y, double dt) {
 
 std::ostream& operator<<(std::ostream& output_stream, const Particle& p) {
 
-    
     output_stream << "====================================" << std::endl; 
     output_stream << "Current x-position: " << p._x_pos << std::endl; 
     output_stream << "Current y-position: " << p._y_pos << std::endl; 
