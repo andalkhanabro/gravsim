@@ -42,6 +42,10 @@ void World::advance(bool printInfo) {
     std::vector<double> a_x(N, 0.0); // an array to store x accelerations for all particles 
     std::vector<double> a_y(N, 0.0); // an array to store x accelerations for all particles 
 
+    std::vector<double> f_x(N, 0.0); // an array to store x forces for all particles i,j
+    std::vector<double> f_y(N, 0.0); // an array to store y forces for all particles i,j 
+
+
     for (int i = 0; i < N; i++) {
 
         Particle p_i = _all_particles[i]; 
@@ -54,7 +58,7 @@ void World::advance(bool printInfo) {
 
             Particle p_j = _all_particles[j]; 
 
-            double d_cubed = Particle::distCubed(p_i, p_j); // d^3 
+            double d_cubed = Particle::distCubed(p_i, p_j); // d^3 can
             double x_ji = p_j._x_pos - p_i._x_pos;  // delta x
             double y_ji = p_j._y_pos - p_i._y_pos;  // delta y 
 

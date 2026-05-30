@@ -18,7 +18,9 @@ double Particle::distCubed(Particle i, Particle j) { // static keyword only goes
 
     double dy = j._y_pos - i._y_pos; 
 
-    double d_cubed = std::pow((dx * dx + dy * dy), 1.5); 
+    double epsilon = 1; 
+
+    double d_cubed = std::pow((dx * dx + dy * dy + epsilon*epsilon), 1.5); 
 
     return d_cubed; 
 
